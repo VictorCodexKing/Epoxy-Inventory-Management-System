@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Resin — the single accent colour. Everything else is warm stone. */
+  --color-resin-50: #fffaeb;
+  --color-resin-100: #fef0c7;
+  --color-resin-200: #fde08a;
+  --color-resin-300: #fcc94d;
+  --color-resin-400: #fbb124;
+  --color-resin-500: #f08f0b;
+  --color-resin-600: #d46a06;
+  --color-resin-700: #b04a09;
+  --color-resin-800: #8f3a0f;
+  --color-resin-900: #763010;
+}
+
+@layer base {
+  html {
+    font-feature-settings: 'ss02', 'cv01';
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-resin-500);
+    outline-offset: 2px;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .card {
+    @apply rounded-xl border border-stone-200 bg-white shadow-[0_1px_0_rgba(28,25,23,0.04)];
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold tracking-[0.14em] text-stone-500 uppercase;
+  }
+
+  .input {
+    @apply block w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm text-stone-900 shadow-[inset_0_1px_0_rgba(28,25,23,0.03)] transition placeholder:text-stone-400 hover:border-stone-400 focus:border-resin-500 focus:ring-2 focus:ring-resin-500/20 focus:outline-none disabled:cursor-not-allowed disabled:bg-stone-100 disabled:text-stone-500;
+  }
+  .input[aria-invalid='true'] {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/20;
+  }
+  select.input {
+    appearance: none;
+    padding-right: 2.25rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2378716c'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: 1.1rem;
+    background-position: right 0.6rem center;
+    background-repeat: no-repeat;
+  }
+
+  .table-base {
+    @apply w-full text-left text-sm;
+  }
+  .table-base thead th {
+    @apply sticky top-0 z-[1] border-b border-stone-200 bg-stone-50/95 px-4 py-2.5 text-[11px] font-semibold tracking-[0.08em] whitespace-nowrap text-stone-500 uppercase backdrop-blur;
+  }
+  .table-base tbody td {
+    @apply border-b border-stone-100 px-4 py-3 align-middle;
+  }
+  .table-base tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .table-base tbody tr.row-link {
+    @apply cursor-pointer transition-colors hover:bg-resin-50/50;
+  }
+}

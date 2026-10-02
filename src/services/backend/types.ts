@@ -1,14 +1,11 @@
 /**
  * Backend abstraction.
  *
- * All business operations (src/services/operations/*) are written ONCE against this tiny interface.
- * Two implementations exist:
- *   - demo     → src/services/backend/demo.ts      (in-browser, localStorage)
- *   - firebase → src/services/backend/firebase.ts  (Firestore + Firebase Auth)
+ * All business operations (src/services/operations/*) are written ONCE against this tiny interface,
+ * implemented by src/services/backend/firebase.ts (Firestore + Firebase Auth).
  *
- * The transaction contract deliberately mirrors Firestore's: every `get` must happen before the first
- * write, and the whole transaction is applied atomically (all writes or none). The demo backend enforces
- * the same rule so logic that works in demo mode works unchanged on Firestore.
+ * The transaction contract mirrors Firestore's: every `get` must happen before the first write, and
+ * the whole transaction is applied atomically (all writes or none).
  */
 
 export type CollectionName =
@@ -76,7 +73,6 @@ export interface AuthGateway {
 }
 
 export interface Backend {
-  kind: 'demo' | 'firebase'
   store: DocumentStore
   auth: AuthGateway
 }

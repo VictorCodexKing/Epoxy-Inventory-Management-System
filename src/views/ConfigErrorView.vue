@@ -10,7 +10,7 @@ defineProps<{ missing: string[]; message?: string }>()
       <p v-if="message" class="mt-3 text-sm text-stone-600">{{ message }}</p>
       <template v-if="missing.length">
         <p class="mt-3 text-sm text-stone-600">
-          <code class="rounded bg-stone-100 px-1">VITE_DATA_BACKEND=firebase</code> is set, but these environment variables are empty:
+          These required environment variables are missing:
         </p>
         <ul class="mt-3 space-y-1 font-mono text-sm text-stone-800">
           <li v-for="k in missing" :key="k">• {{ k }}</li>

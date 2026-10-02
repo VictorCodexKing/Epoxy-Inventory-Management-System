@@ -1,6 +1,6 @@
 /**
  * Firebase backend: Firestore + Firebase Authentication (email / password).
- * Activated with VITE_DATA_BACKEND=firebase and the VITE_FIREBASE_* keys (see .env.example).
+ * Configured with the VITE_FIREBASE_* keys (see .env.example).
  */
 import { initializeApp, type FirebaseApp } from 'firebase/app'
 import {
@@ -214,5 +214,5 @@ export function createFirebaseBackend(config: FirebaseConfig, emulators: Emulato
     connectFirestoreEmulator(db, '127.0.0.1', emulators.firestorePort)
     connectAuthEmulator(auth, `http://127.0.0.1:${emulators.authPort}`, { disableWarnings: true })
   }
-  return { kind: 'firebase', store: new FirestoreStore(db), auth: new FirebaseAuthGateway(auth) }
+  return { store: new FirestoreStore(db), auth: new FirebaseAuthGateway(auth) }
 }

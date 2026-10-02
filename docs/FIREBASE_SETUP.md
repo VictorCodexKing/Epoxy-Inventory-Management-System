@@ -1,6 +1,6 @@
 # Connecting EIMS to Firebase
 
-The app runs in **demo mode** until you switch it over. Switching needs no code changes, only configuration. Everything here works on Firebase's free **Spark** plan.
+EIMS runs on Firebase. This is pure configuration — no code changes — and everything here works on Firebase's free **Spark** plan.
 
 ## 1. Create the project
 
@@ -14,7 +14,6 @@ The app runs in **demo mode** until you switch it over. Switching needs no code 
 **Project settings → General → Your apps → Web (`</>`)**. Copy the config values into `.env.local`; see [`.env.example`](../.env.example):
 
 ```env
-VITE_DATA_BACKEND=firebase
 VITE_FIREBASE_API_KEY=...
 VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your-project

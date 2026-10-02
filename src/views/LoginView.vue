@@ -4,8 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { Eye, EyeOff, ArrowRight } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { errorMessage } from '@/stores/ui'
-import { backendKind } from '@/services/backend'
-import { DEMO_ACCOUNTS } from '@/services/backend/demo'
 import AppButton from '@/components/ui/AppButton.vue'
 import FormField from '@/components/ui/FormField.vue'
 import BrandMark from '@/components/domain/BrandMark.vue'
@@ -20,8 +18,6 @@ const showPassword = ref(false)
 const submitting = ref(false)
 const error = ref<string | null>(null)
 const resetSent = ref(false)
-
-const demoRoles: Record<string, string> = { 'demo-admin': 'Super Admin', 'demo-user': 'Normal User', 'demo-store': 'Normal User' }
 
 function safeRedirect(): string {
   const r = route.query.redirect
@@ -65,12 +61,6 @@ async function forgot() {
   } catch (e) {
     error.value = errorMessage(e)
   }
-}
-
-function fill(acct: (typeof DEMO_ACCOUNTS)[number]) {
-  email.value = acct.email
-  password.value = acct.password
-  error.value = null
 }
 </script>
 
@@ -164,29 +154,10 @@ function fill(acct: (typeof DEMO_ACCOUNTS)[number]) {
           <AppButton type="submit" variant="dark" block :loading="submitting || (auth.status === 'loading' && !!auth.user)" class="h-11">
             Sign in <ArrowRight class="size-4" />
           </AppButton>
-          <button v-if="backendKind === 'firebase'" type="button" class="w-full text-center text-sm text-stone-500 hover:text-stone-800" @click="forgot">
+          <button type="button" class="w-full text-center text-sm text-stone-500 hover:text-stone-800" @click="forgot">
             Forgot password?
           </button>
         </form>
-
-        <div v-if="backendKind === 'demo'" class="mt-10">
-          <p class="eyebrow">Demo accounts</p>
-          <div class="mt-3 space-y-2">
-            <button
-              v-for="a in DEMO_ACCOUNTS"
-              :key="a.uid"
-              type="button"
-              class="flex w-full items-center justify-between rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-left text-sm transition hover:border-resin-400 hover:bg-resin-50/40"
-              @click="fill(a)"
-            >
-              <span>
-                <span class="block font-medium text-stone-800">{{ a.displayName }}</span>
-                <span class="num block text-xs text-stone-500">{{ a.email }} · {{ a.password }}</span>
-              </span>
-              <span class="text-xs font-medium text-stone-500">{{ demoRoles[a.uid] }}</span>
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   </div>

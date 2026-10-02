@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FlaskConical, Info, MapPin, Pencil, Plus, Trash2, Users } from 'lucide-vue-next'
-import { getBackend, backendKind } from '@/services/backend'
+import { getBackend } from '@/services/backend'
 import { deleteUser, setUserRole } from '@/services/operations/users'
 import { useAuthStore } from '@/stores/auth'
 import { useDataStore } from '@/stores/data'
@@ -185,13 +185,9 @@ async function removeUser(u: UserProfile) {
     <div v-else class="space-y-4">
       <div class="flex gap-3 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">
         <Info class="mt-0.5 size-4 shrink-0" />
-        <p v-if="backendKind === 'firebase'">
+        <p>
           New accounts are created by the project owner in <span class="font-medium">Firebase Console → Authentication</span>. They appear here as
           Normal Users after their first sign-in, and you can then promote them.
-        </p>
-        <p v-else>
-          In demo mode the three demo accounts are fixed. With Firebase connected, the project owner creates accounts in Firebase Console; they appear
-          here after their first sign-in.
         </p>
       </div>
       <div class="card overflow-hidden">

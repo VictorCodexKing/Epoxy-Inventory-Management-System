@@ -8,18 +8,11 @@ Batch-level inventory for chemical raw materials and packaging: purchase orders,
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173 — runs in demo mode, no setup needed
+cp .env.example .env.local   # then fill in your Firebase keys
+npm run dev                  # http://localhost:5173
 ```
 
-Demo mode is fully functional. Data is stored in your browser's localStorage and starts with sample data.
-
-| Account | Password | Role |
-| --- | --- | --- |
-| `admin@eims.demo` | `admin123` | Super Admin |
-| `user@eims.demo` | `user123` | Normal User (read-only) |
-| `store@eims.demo` | `store123` | Normal User |
-
-To connect real Firebase, follow **[docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md)**. Set `VITE_DATA_BACKEND=firebase`, add six config keys and deploy `firestore.rules`.
+The app runs on **Firebase Auth + Firestore**. Create a project, add the six `VITE_FIREBASE_*` keys to `.env.local`, and deploy `firestore.rules`. The full walkthrough — including creating the first Super Admin and running locally against the Firebase Emulator Suite — is in **[docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md)**.
 
 ## What it does
 
@@ -65,15 +58,13 @@ src/
   services/
     backend/types.ts         Tiny DocumentStore + AuthGateway interface (Firestore-shaped transactions)
     backend/firebase.ts      Firestore + Firebase Auth implementation
-    backend/demo.ts          In-browser implementation (localStorage), same transaction semantics
     operations/              ALL business logic, written once against the interface
-    demo/seed.ts             Sample data, created through the real operations
   stores/                    Pinia: auth, data (realtime cache), inventory (derived views), ui
   views/ components/ layouts/
 firestore.rules              Role enforcement
 ```
 
-The business logic is written once against the `DocumentStore` interface. The demo backend enforces Firestore's transaction rules (reads before writes, atomic commit), so behaviour that works in demo mode behaves the same on Firestore.
+The business logic is written once against the `DocumentStore` interface, keeping all Firestore specifics in `backend/firebase.ts`. Every write path (receipts, sales, transfers, voids) runs as a single atomic transaction with reads before writes.
 
 ## Scripts
 

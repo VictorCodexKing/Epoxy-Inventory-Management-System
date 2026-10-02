@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Boxes, LayoutDashboard, LogOut, Menu, RotateCcw, Settings, ShoppingCart, Truck, TriangleAlert, X, Lock } from 'lucide-vue-next'
+import { Boxes, LayoutDashboard, LogOut, Menu, Settings, ShoppingCart, Truck, TriangleAlert, X, Lock } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useDataStore } from '@/stores/data'
 import { useInventoryStore } from '@/stores/inventory'
 import { useUiStore } from '@/stores/ui'
-import { backendKind, resetDemoData } from '@/services/backend'
 import BrandMark from '@/components/domain/BrandMark.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 
@@ -54,18 +53,6 @@ const initials = computed(() =>
 async function signOut() {
   await auth.signOut()
   await router.replace({ name: 'login' })
-}
-
-async function resetDemo() {
-  const { confirmed } = await ui.confirm({
-    title: 'Reset demo data?',
-    message: 'All demo records will be wiped and the original sample data restored. This only affects this browser.',
-    confirmLabel: 'Reset data',
-    tone: 'danger',
-  })
-  if (!confirmed) return
-  await resetDemoData()
-  ui.toast('success', 'Demo data restored')
 }
 </script>
 
@@ -116,14 +103,6 @@ async function resetDemo() {
           <span>Read-only access. Purchasing, sales and settings are for Super Admins.</span>
         </div>
       </nav>
-
-      <div v-if="backendKind === 'demo'" class="mx-3 mb-3 rounded-lg border border-resin-500/20 bg-resin-500/[0.06] p-3">
-        <p class="text-xs font-semibold text-resin-300">Demo mode</p>
-        <p class="mt-0.5 text-[11px] leading-relaxed text-stone-400">Data is stored in this browser only.</p>
-        <button v-if="auth.isAdmin" type="button" class="mt-2 inline-flex items-center gap-1.5 text-[11px] font-medium text-stone-300 hover:text-white" @click="resetDemo">
-          <RotateCcw class="size-3" /> Reset demo data
-        </button>
-      </div>
 
       <div class="border-t border-white/5 p-3">
         <div class="flex items-center gap-3 rounded-lg px-2 py-2">
